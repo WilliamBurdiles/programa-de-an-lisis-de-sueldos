@@ -1,0 +1,115 @@
+import random
+import statistics
+
+# Lista de nombres de empleados
+trabajadores = ["Juan Pérez", "María García", "Carlos López", "Ana Martínez", "Pedro Rodríguez",
+                "Laura Hernández", "Miguel Sánchez", "Isabel Gómez", "Francisco Díaz", "Elena Fernández"]
+
+# Función para asignar sueldos aleatorios
+def asignar_sueldos_aleatorios():
+    sueldos = [random.randint(300000, 2500000) for _ in range(10)]
+    return sueldos
+
+# Función para clasificar sueldos
+def clasificar_sueldos(sueldos):
+    menor_800k = []
+    entre_800k_2m = []
+    mayor_2m = []
+
+    for i, sueldo in enumerate(sueldos):
+        if sueldo < 800000:
+            menor_800k.append((trabajadores[i], sueldo))
+        elif sueldo >= 800000 and sueldo <= 2000000:
+            entre_800k_2m.append((trabajadores[i], sueldo))
+        else:
+            mayor_2m.append((trabajadores[i], sueldo))
+
+    print("Sueldos menores a $800.000\nTOTAL:", len(menor_800k))
+    for nombre, sueldo in menor_800k:
+        print(f"{nombre} ${sueldo}")
+
+    print("\nSueldos entre $800.000 y $2.000.000\nTOTAL:", len(entre_800k_2m))
+    for nombre, sueldo in entre_800k_2m:
+        print(f"{nombre} ${sueldo}")
+
+    print("\nSueldos superiores a $2.000.000\nTOTAL:", len(mayor_2m))
+    for nombre, sueldo in mayor_2m:
+        print(f"{nombre} ${sueldo}")
+
+    total_sueldos = sum(sueldos)
+    print("\nTOTAL SUELDOS: $", total_sueldos)
+
+# Función para ver estadísticas
+def ver_estadisticas(sueldos):
+    sueldo_maximo = max(sueldos)
+    sueldo_minimo = min(sueldos)
+    promedio_sueldos = statistics.mean(sueldos)
+    media_geometrica = statistics.geometric_mean(sueldos)
+
+    print("Estadísticas de sueldos:")
+    print(f"Sueldo más alto: ${sueldo_maximo}")
+    print(f"Sueldo más bajo: ${sueldo_minimo}")
+    print(f"Promedio de sueldos: ${promedio_sueldos:.2f}")
+    print(f"Media geométrica de sueldos: ${media_geometrica:.2f}")
+
+# Función para reporte de sueldos con descuentos
+def reporte_sueldos(sueldos):
+    descuento_salud = 0.07
+    descuento_afp = 0.12
+
+    print("Reporte de sueldos con descuentos:")
+    for i, sueldo in enumerate(sueldos):
+        descuento_total = sueldo * (descuento_salud + descuento_afp)
+        sueldo_liquido = sueldo - descuento_total
+        print(f"{trabajadores[i]}:")
+        print(f"Sueldo base: ${sueldo}")
+        print(f"Descuento salud (7%): ${sueldo * descuento_salud}")
+        print(f"Descuento AFP (12%): ${sueldo * descuento_afp}")
+        print(f"Sueldo líquido: ${sueldo_liquido:.2f}")
+        print()
+
+# Función principal del programa
+def main():
+    sueldos = []
+
+    while True:
+        print("\n----- MENÚ -----")
+        print("1. Asignar sueldos aleatorios")
+        print("2. Clasificar sueldos")
+        print("3. Ver estadísticas")
+        print("4. Reporte de sueldos")
+        print("5. Salir del programa")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == '1':
+            sueldos = asignar_sueldos_aleatorios()
+            print("Sueldos asignados aleatoriamente.")
+
+        elif opcion == '2':
+            if not sueldos:
+                print("Primero debe asignar los sueldos.")
+            else:
+                clasificar_sueldos(sueldos)
+
+        elif opcion == '3':
+            if not sueldos:
+                print("Primero debe asignar los sueldos.")
+            else:
+                ver_estadisticas(sueldos)
+
+        elif opcion == '4':
+            if not sueldos:
+                print("Primero debe asignar los sueldos.")
+            else:
+                reporte_sueldos(sueldos)
+
+        elif opcion == '5':
+            print("¡Hasta luego!")
+            break
+
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
+if __name__ == "__main__":
+    main()
